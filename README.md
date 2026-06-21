@@ -39,15 +39,8 @@ Each summary includes:
 - [uv](https://github.com/astral-sh/uv) installed (`brew install uv` on macOS)
 - A Jira Cloud account with API access
 
-### 1. Clone the repo
 
-```bash
-git clone git@github.com:nothingman89/support-issue-analyzer.git
-cd support-issue-analyzer
-mkdir issues
-```
-
-### 2. Configure Jira credentials
+### 1. Configure Jira credentials
 
 Create a local `.mcp.json` in the project root (never commit this):
 
@@ -70,7 +63,7 @@ Create a local `.mcp.json` in the project root (never commit this):
 
 Generate an API token at: https://id.atlassian.com/manage-profile/security/api-tokens
 
-### 3. Run
+### 2. Run
 
 ```bash
 claude
