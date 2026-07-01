@@ -3,7 +3,7 @@ import httpx
 from aws import get_secret
 
 GITHUB_TOKEN = get_secret("support-analyzer/github-token")
-GITHUB_REPO = "taner-rdu/parlez-test-fixtures"
+GITHUB_REPO = get_secret("support-analyzer/github-test-issue-repo")
 GITHUB_API = "https://api.github.com"
 HEADERS = {
     "Authorization": f"token {GITHUB_TOKEN}",

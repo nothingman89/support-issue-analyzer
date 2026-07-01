@@ -48,49 +48,35 @@ Each summary includes:
 - A Slack app/bot token with access to the channels you want searched
 - A GitHub personal access token with `repo` scope (for searching and filing issues)
 
-### 1. Configure MCP servers
+### 1. Add secrets to AWS Secrets Manager
 
-Create a local `.mcp.json` in the project root (never commit this — it's already in `.gitignore`):
+All credentials are stored in AWS Secrets Manager under the `support-analyzer/` prefix. Create the following secrets before running the tool:
 
-```json
-{
-  "mcpServers": {
-    "atlassian": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": ["mcp-atlassian"],
-      "env": {
-        "JIRA_URL": "https://your-instance.atlassian.net",
-        "JIRA_USERNAME": "your@email.com",
-        "JIRA_API_TOKEN": "your_api_token"
-      }
-    },
-    "slack": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-slack"],
-      "env": {
-        "SLACK_BOT_TOKEN": "xoxb-your-bot-token",
-        "SLACK_TEAM_ID": "your-team-id"
-      }
-    },
-    "github": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": {
-        "GITHUB_TOKEN": "your_github_token"
-      }
-    }
-  }
-}
+| Secret name | Value |
+|---|---|
+| `support-analyzer/jira-url` | Your Jira instance URL (e.g. `https://your-org.atlassian.net`) |
+| `support-analyzer/jira-username` | Your Jira account email |
+| `support-analyzer/jira-token` | Jira API token — generate at https://id.atlassian.com/manage-profile/security/api-tokens |
+| `support-analyzer/jira-project-key` | Jira project key to search (e.g. `PARLE`) |
+| `support-analyzer/slack-bot-token` | Slack bot token (`xoxb-...`) — create a bot at https://api.slack.com/apps |
+| `support-analyzer/slack-team-id` | Slack workspace team ID |
+| `support-analyzer/slack-channel` | Slack channel name to search (e.g. `support`) |
+| `support-analyzer/github-token` | GitHub personal access token with `repo` scope — generate at https://github.com/settings/tokens |
+| `support-analyzer/github-test-issue-repo` | GitHub repo used for e2e test fixtures (e.g. `your-org/your-repo`) |
+
+For the Slack bot, invite it to the channel you want it to search and grant it at minimum the `channels:history`, `channels:read`, `groups:history`, `groups:read`, `search:read.public`, and `search:read.private` scopes. Add `users:read` and `users.profile:read` if you want author names resolved instead of raw user IDs.
+
+### 2. Generate MCP config
+
+Run the setup script to generate `.mcp.json` automatically from your secrets:
+
+```bash
+uv run python scripts/generate_mcp_config.py
 ```
 
-- Generate a Jira API token at: https://id.atlassian.com/manage-profile/security/api-tokens
-- Create a Slack bot at https://api.slack.com/apps and install it to your workspace. Invite the bot to every channel you want it to search (it can only read channels it's a member of). At minimum it needs the `channels:history`, `channels:read`, `groups:history`, `groups:read`, `search:read.public`, and `search:read.private` scopes — add `users:read` and `users.profile:read` too if you want author names resolved instead of raw user IDs.
-- Generate a GitHub personal access token at: https://github.com/settings/tokens
+This writes `.mcp.json` to the project root (gitignored). You need valid AWS credentials in your environment — an IAM role, a named profile (`AWS_PROFILE`), or `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` env vars will all work.
 
-After adding or changing `.mcp.json`, restart Claude Code so it picks up the new servers.
+After running it, restart Claude Code so it picks up the new servers.
 
 ### 2. Configure local repos to search
 

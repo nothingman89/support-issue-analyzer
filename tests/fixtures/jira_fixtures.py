@@ -5,7 +5,7 @@ from aws import get_secret
 JIRA_URL = get_secret("support-analyzer/jira-url")
 JIRA_EMAIL = get_secret("support-analyzer/jira-username")
 JIRA_TOKEN = get_secret("support-analyzer/jira-token")
-JIRA_PROJECT_KEY = "PARLE"
+JIRA_PROJECT_KEY = get_secret("support-analyzer/jira-project-key")
 
 
 def create_jira_issue(summary: str, description: str) -> str:

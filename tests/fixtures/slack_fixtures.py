@@ -3,7 +3,7 @@ import httpx
 from aws import get_secret
 
 SLACK_TOKEN = get_secret("support-analyzer/slack-bot-token")
-SLACK_CHANNEL = "parlez-support"
+SLACK_CHANNEL = get_secret("support-analyzer/slack-channel")
 HEADERS = {"Authorization": f"Bearer {SLACK_TOKEN}"}
 
 
