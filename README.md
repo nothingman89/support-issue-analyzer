@@ -57,12 +57,12 @@ All credentials are stored in AWS Secrets Manager under the `support-analyzer/` 
 | `support-analyzer/jira-url` | Your Jira instance URL (e.g. `https://your-org.atlassian.net`) |
 | `support-analyzer/jira-username` | Your Jira account email |
 | `support-analyzer/jira-token` | Jira API token — generate at https://id.atlassian.com/manage-profile/security/api-tokens |
-| `support-analyzer/jira-project-key` | Jira project key to search (e.g. `PARLE`) |
+| `support-analyzer/jira-project-key` | Jira project key to search (e.g. `MYPROJECT`) |
 | `support-analyzer/slack-bot-token` | Slack bot token (`xoxb-...`) — create a bot at https://api.slack.com/apps |
 | `support-analyzer/slack-team-id` | Slack workspace team ID |
 | `support-analyzer/slack-channel` | Slack channel name to search (e.g. `support`) |
 | `support-analyzer/github-token` | GitHub personal access token with `repo` scope — generate at https://github.com/settings/tokens |
-| `support-analyzer/github-test-issue-repo` | GitHub repo used for e2e test fixtures (e.g. `your-org/your-repo`) |
+| `support-analyzer/github-test-issue-repo` | GitHub repo used for e2e test issues (e.g. `your-org/your-repo`) |
 
 For the Slack bot, invite it to the channel you want it to search and grant it at minimum the `channels:history`, `channels:read`, `groups:history`, `groups:read`, `search:read.public`, and `search:read.private` scopes. Add `users:read` and `users.profile:read` if you want author names resolved instead of raw user IDs.
 
