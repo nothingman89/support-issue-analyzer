@@ -1,4 +1,5 @@
 .env
+.python-version
 issues/
 .mcp.json
 .claude/support-config.json
